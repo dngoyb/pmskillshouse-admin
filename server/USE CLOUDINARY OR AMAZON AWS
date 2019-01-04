@@ -1,0 +1,31 @@
+const cloudinary = require("cloudinary");
+const cloudinaryStorage = require("multer-storage-cloudinary");
+
+cloudinary.config({
+    cloud_name: process.env.CLOUD_NAME,
+    api_key: process.env.API_KEY,
+    api_secret: process.env.API_SECRET
+});
+
+posts.use(cors());
+
+const storage = cloudinaryStorage({
+    cloudinary: cloudinary,
+    folder: "Photos",
+    allowedFormats: ["jpg", "png", "jpeg", "gif", "mp4", "mp3"],
+    //transformation: [{ width: 1280, height: 720, crop: "limit" }]
+});
+
+/*let storage = multer.diskStorage({
+    destination: (req, file, cb) => {
+    cb(null, 'Photos')
+  },
+    filename: (req, file, cb) => {
+    cb(null, Date.now() + '-' + file.originalname.split(' ').join('-'))
+  }
+})*/
+
+let upload = multer({ storage: storage });
+
+
+CONFIGURE YOUR MULTER WITH THE ABOVE CONFIG AND YOU ARE SORTED !!!!
