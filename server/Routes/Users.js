@@ -54,7 +54,7 @@ users.post('/register', (req, res) => {
 		"created_date": today
 	}
 	if (req.body.password) {
-	     userData.password = bcrypt.hashSync(req.body.password, saltRounds);
+		userData.password = bcrypt.hashSync(req.body.password, saltRounds);
 	}
 	let email = req.body.email;
 
@@ -65,16 +65,15 @@ users.post('/register', (req, res) => {
 		database.connection.getConnection((err, connection) => {
 			if (err) {
 				response["error"] = 1;
-				response["data"] = "Internal Server Error";
-				res.status(500).json(response);
+				response["data"] = "Internal Server Error here am iam";
+				res.status(500).json({response, err});
 			} else {
 				connection.query('SELECT * FROM user WHERE email = ?', [email], (err, rows, fields) => {
 					if (rows.length > 0) {
 						response.error = 1;
 						response["data"] = "User already exists";
 						res.status(201).json(response);
-					}
-					else {
+					} else {
 						connection.query('INSERT INTO user SET ?', userData, (err, rows, fields) => {
 							if (!err) {
 								response.error = 0;
@@ -181,8 +180,7 @@ users.post('/forgot', (req, res) => {
 						if (err) {
 							response.data = "SQL error";
 							res.status(500).json(response);
-						}
-						else {
+						} else {
 							let msg_body = "Use this code " + code + " to generate a new PMSKILLSHOUSE password.";
 							let mailOptions = {
 								from: 'PMSKILLSHOUSE <noreply@pmskillshouse.com>',
@@ -203,8 +201,7 @@ users.post('/forgot', (req, res) => {
 							});
 						}
 					});
-				}
-				else {
+				} else {
 					response.data = "Email not found";
 					res.status(404).json(response);
 				}
@@ -272,14 +269,14 @@ users.post('/addCourse', (req, res) => {
 	};
 	let courseData = {
 		"course_name": req.body.course_name,
-        "course_description": req.body.course_description
+		"course_description": req.body.course_description
 	}
 	database.connection.getConnection((err, connection) => {
 		if (err) {
 			response["error"] = 1;
 			response["data"] = "Internal Server Error";
 			res.status(500).json(response);
-		}	else {
+		} else {
 			connection.query('INSERT INTO assessment SET ?', courseData, (err, rows, fields) => {
 				console.log("Assessment data: ", courseData);
 				if (!err) {
@@ -299,21 +296,21 @@ users.post('/addCourse', (req, res) => {
 users.get('/getUsers', (req, res) => {
 
 	let response = {};
-	
-		database.connection.getConnection((err, connection) => {
-			if (err) {
-				response["error"] = 1;
-				response["data"] = "Internal Server Error";
-				res.status(500).json(response);
+
+	database.connection.getConnection((err, connection) => {
+		if (err) {
+			response["error"] = 1;
+			response["data"] = "Internal Server Error";
+			res.status(500).json(response);
 		} else {
-				connection.query('SELECT * FROM user', (err, rows, fields) => {
-					if (!err) {
-						response["error"] = 0;
-						response["data"] = rows;
-						res.status(200).json(response);
+			connection.query('SELECT * FROM user', (err, rows, fields) => {
+				if (!err) {
+					response["error"] = 0;
+					response["data"] = rows;
+					res.status(200).json(response);
 				} else {
-						response["data"] = "No data found";
-						res.status(204).json(response);
+					response["data"] = "No data found";
+					res.status(204).json(response);
 				}
 			});
 			connection.release();
@@ -324,21 +321,21 @@ users.get('/getUsers', (req, res) => {
 users.get('/getCourses', (req, res) => {
 
 	let response = {};
-	
-		database.connection.getConnection((err, connection) => {
-			if (err) {
-				response["error"] = 1;
-				response["data"] = "Internal Server Error";
-				res.status(500).json(response);
+
+	database.connection.getConnection((err, connection) => {
+		if (err) {
+			response["error"] = 1;
+			response["data"] = "Internal Server Error";
+			res.status(500).json(response);
 		} else {
-				connection.query('SELECT * FROM course', (err, rows, fields) => {
-					if (!err) {
-						response["error"] = 0;
-						response["data"] = rows;
-						res.status(200).json(response);
+			connection.query('SELECT * FROM course', (err, rows, fields) => {
+				if (!err) {
+					response["error"] = 0;
+					response["data"] = rows;
+					res.status(200).json(response);
 				} else {
-						response["data"] = "No data found";
-						res.status(204).json(response);
+					response["data"] = "No data found";
+					res.status(204).json(response);
 				}
 			});
 			connection.release();
@@ -349,21 +346,21 @@ users.get('/getCourses', (req, res) => {
 users.get('/getTrainings', (req, res) => {
 
 	let response = {};
-	
-		database.connection.getConnection((err, connection) => {
-			if (err) {
-				response["error"] = 1;
-				response["data"] = "Internal Server Error";
-				res.status(500).json(response);
+
+	database.connection.getConnection((err, connection) => {
+		if (err) {
+			response["error"] = 1;
+			response["data"] = "Internal Server Error";
+			res.status(500).json(response);
 		} else {
-				connection.query('SELECT * FROM training', (err, rows, fields) => {
-					if (!err) {
-						response["error"] = 0;
-						response["data"] = rows;
-						res.status(200).json(response);
+			connection.query('SELECT * FROM training', (err, rows, fields) => {
+				if (!err) {
+					response["error"] = 0;
+					response["data"] = rows;
+					res.status(200).json(response);
 				} else {
-						response["data"] = "No data found";
-						res.status(204).json(response);
+					response["data"] = "No data found";
+					res.status(204).json(response);
 				}
 			});
 			connection.release();
@@ -374,21 +371,21 @@ users.get('/getTrainings', (req, res) => {
 users.get('/getAssessments', (req, res) => {
 
 	let response = {};
-	
-		database.connection.getConnection((err, connection) => {
-			if (err) {
-				response["error"] = 1;
-				response["data"] = "Internal Server Error";
-				res.status(500).json(response);
+
+	database.connection.getConnection((err, connection) => {
+		if (err) {
+			response["error"] = 1;
+			response["data"] = "Internal Server Error";
+			res.status(500).json(response);
 		} else {
-				connection.query('SELECT * FROM assessment', (err, rows, fields) => {
-					if (!err) {
-						response["error"] = 0;
-						response["data"] = rows;
-						res.status(200).json(response);
+			connection.query('SELECT * FROM assessment', (err, rows, fields) => {
+				if (!err) {
+					response["error"] = 0;
+					response["data"] = rows;
+					res.status(200).json(response);
 				} else {
-						response["data"] = "No data found";
-						res.status(204).json(response);
+					response["data"] = "No data found";
+					res.status(204).json(response);
 				}
 			});
 			connection.release();
@@ -399,21 +396,21 @@ users.get('/getAssessments', (req, res) => {
 users.get('/getPostAssessments', (req, res) => {
 
 	let response = {};
-	
-		database.connection.getConnection((err, connection) => {
-			if (err) {
-				response["error"] = 1;
-				response["data"] = "Internal Server Error";
-				res.status(500).json(response);
+
+	database.connection.getConnection((err, connection) => {
+		if (err) {
+			response["error"] = 1;
+			response["data"] = "Internal Server Error";
+			res.status(500).json(response);
 		} else {
-				connection.query('SELECT * FROM postassessment', (err, rows, fields) => {
-					if (!err) {
-						response["error"] = 0;
-						response["data"] = rows;
-						res.status(200).json(response);
+			connection.query('SELECT * FROM postassessment', (err, rows, fields) => {
+				if (!err) {
+					response["error"] = 0;
+					response["data"] = rows;
+					res.status(200).json(response);
 				} else {
-						response["data"] = "No data found";
-						res.status(204).json(response);
+					response["data"] = "No data found";
+					res.status(204).json(response);
 				}
 			});
 			connection.release();
@@ -424,21 +421,21 @@ users.get('/getPostAssessments', (req, res) => {
 users.get('/getQuestions', (req, res) => {
 
 	let response = {};
-	
-		database.connection.getConnection((err, connection) => {
-			if (err) {
-				response["error"] = 1;
-				response["data"] = "Internal Server Error";
-				res.status(500).json(response);
+
+	database.connection.getConnection((err, connection) => {
+		if (err) {
+			response["error"] = 1;
+			response["data"] = "Internal Server Error";
+			res.status(500).json(response);
 		} else {
-				connection.query('SELECT * FROM question', (err, rows, fields) => {
-					if (!err) {
-						response["error"] = 0;
-						response["data"] = rows;
-						res.status(200).json(response);
+			connection.query('SELECT * FROM question', (err, rows, fields) => {
+				if (!err) {
+					response["error"] = 0;
+					response["data"] = rows;
+					res.status(200).json(response);
 				} else {
-						response["data"] = "No data found";
-						res.status(204).json(response);
+					response["data"] = "No data found";
+					res.status(204).json(response);
 				}
 			});
 			connection.release();
@@ -449,26 +446,26 @@ users.get('/getQuestions', (req, res) => {
 users.get('/getTrainees', (req, res) => {
 
 	let response = {};
-	
-		database.connection.getConnection((err, connection) => {
-			if (err) {
-				response["error"] = 1;
-				response["data"] = "Internal Server Error";
-				res.status(500).json(response);
+
+	database.connection.getConnection((err, connection) => {
+		if (err) {
+			response["error"] = 1;
+			response["data"] = "Internal Server Error";
+			res.status(500).json(response);
 		} else {
-				connection.query('SELECT t.trainee_id "Trainee ID", CONCAT(t.first_name, " ", t.last_name) \
+			connection.query('SELECT t.trainee_id "Trainee ID", CONCAT(t.first_name, " ", t.last_name) \
 				"Trainee Name", t.gender "Gender", t.phone_number "Phone Number",\
 				t.address "Address", t.date_of_birth "Date of birth", t.identity_number "ID Number",\
 				t.username "Username", CONCAT(u.first_name, " ", u.last_name) "Trainer Name",\
 				tr.training_location "Training location", tr.training_date "Date"\
 				FROM trainee t, user u, training tr WHERE t.user_id = u.user_id;', (err, rows, fields) => {
-					if (!err) {
-						response["error"] = 0;
-						response["data"] = rows;
-						res.status(200).json(response);
+				if (!err) {
+					response["error"] = 0;
+					response["data"] = rows;
+					res.status(200).json(response);
 				} else {
-						response["data"] = "No data found";
-						res.status(204).json(response);
+					response["data"] = "No data found";
+					res.status(204).json(response);
 				}
 			});
 			connection.release();
