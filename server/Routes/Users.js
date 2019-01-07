@@ -43,12 +43,12 @@ users.post('/register', (req, res) => {
 		"first_name": req.body.first_name,
 		"last_name": req.body.last_name,
 		"email": req.body.email,
-		"identity_number": req.body.identity_number,
-		"phone_number": req.body.phone_number,
-		"address": req.body.address,
+		"identity_number": req.body.identity_number ? req.body.identity_number : 345555,
+		"phone_number": req.body.phone_number ? req.body.phone_number : 1223444,
+		"address": req.body.address ? req.body.address : 'soweto',
 		"date_of_birth": req.body.date_of_birth ? req.body.date_of_birth : today,
 		"employee_number": req.body.employee_number ? req.body.employee_number : 8888,
-		"gender": req.body.gender,
+		"gender": req.body.gender ? req.body.gender : 'male',
 		"role": req.body.role ? req.body.role : 2,
 		"password": req.body.password,
 		"created_date": today
@@ -66,7 +66,10 @@ users.post('/register', (req, res) => {
 			if (err) {
 				response["error"] = 1;
 				response["data"] = "Internal Server Error here am iam";
-				res.status(500).json({response, err});
+				res.status(500).json({
+					response,
+					err
+				});
 			} else {
 				connection.query('SELECT * FROM user WHERE email = ?', [email], (err, rows, fields) => {
 					if (rows.length > 0) {
@@ -106,6 +109,85 @@ users.post('/register', (req, res) => {
 		});
 	}
 });
+
+users.post('/signup', (req, res) => {
+
+	let today = new Date();
+	let response = {
+		"error": 1,
+		"data": ""
+	};
+	let userData = {
+		"first_name": req.body.first_name,
+		"last_name": req.body.last_name,
+		"password": req.body.password,
+		"email": req.body.email,
+		"identity_number": req.body.identity_number,
+		"phone_number": req.body.phone_number,
+		"address": req.body.address,
+		"date_of_birth": req.body.date_of_birth,
+		"employee_number": req.body.employee_number ? req.body.employee_number : 8888,
+		"gender": req.body.gender,
+		"created_date": today
+	}
+	if (req.body.password) {
+		userData.password = bcrypt.hashSync(req.body.password, saltRounds);
+	}
+	let email = req.body.email;
+
+	if (!validator.validate(email)) {
+		response["data"] = "Error email provided is invalid";
+		res.status(400).json(response);
+	} else {
+		database.connection.getConnection((err, connection) => {
+			if (err) {
+				response["error"] = 1;
+				response["data"] = "Internal Server Error here am iam";
+				res.status(500).json({
+					response,
+					err
+				});
+			} else {
+				connection.query('SELECT * FROM user WHERE email = ?', [email], (err, rows, fields) => {
+					if (rows.length > 0) {
+						response.error = 1;
+						response["data"] = "User already exists";
+						res.status(201).json(response);
+					} else {
+						connection.query('INSERT INTO user SET ?', userData, (err, rows, fields) => {
+							if (!err) {
+								response.error = 0;
+								response["data"] = "User registered successfully!";
+								let msg_body = "You have been registered to PMSKILLSHOSE, use your email and this " + req.body.password + " password to login.";
+								let mailOptions = {
+									from: 'PMSKILLSHOUSE <noreply@pmskillshouse.com>',
+									to: userData.email,
+									subject: 'Welcome to PMSKILLSHOUSE',
+									text: msg_body
+								};
+								mailer.sendMail(mailOptions, function (error, info) {
+									if (error) {
+										console.log(error);
+									} else {
+										console.log('Email sent: ' + info.response);
+									}
+								});
+								res.status(201).json(response);
+							} else {
+								response["data"] = "Error user registration failed, missing mandatory data";
+								console.log(err);
+								res.status(400).json(response);
+							}
+						});
+						connection.release();
+					}
+				})
+			}
+		});
+	}
+});
+
+
 
 
 users.post('/login', (req, res) => {
