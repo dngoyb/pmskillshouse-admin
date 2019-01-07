@@ -4,7 +4,7 @@ export default {
   signup(credentials) {
     return Api().post('signup', credentials)
   },
-  login(credentials) {
+  signin(credentials) {
     return Api().post('login', credentials)
   }
 }

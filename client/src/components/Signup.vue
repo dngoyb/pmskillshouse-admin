@@ -106,8 +106,6 @@ import AuthService from "@/services/AuthService";
 export default {
     data() {
         return {
-            // gender: ["Male", "Female", "Other"],
-            // role: ["Admin", "Trainer"],
             email: "",
             password: "",
             first_name: "",
@@ -135,7 +133,7 @@ export default {
                     gender: this.gender,
                     address: this.address
                 });
-
+                console.log(response);
                 this.$store.dispatch("setToken", response.data.token);
                 this.$store.dispatch("setUser", response.data.user);
                 this.$router.push("signin");

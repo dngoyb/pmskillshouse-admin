@@ -8,19 +8,12 @@
                 <form>
                     <v-layout column>
                         <v-flex>
-                            <v-text-field
-                                name="email"
-                                label="Email"
-                                id="email"
-                                type="email"
-                                required
-                            ></v-text-field>
+                            <v-text-field v-model="email" label="Email" type="email" required></v-text-field>
                         </v-flex>
                         <v-flex>
                             <v-text-field
-                                name="password"
+                                v-model="password"
                                 label="Password"
-                                id="password"
                                 type="password"
                                 required
                             ></v-text-field>
@@ -41,8 +34,27 @@ export default {
     data() {
         return {
             email: "",
-            password: ""
+            password: "",
+            error: null
         };
+    },
+    methods: {
+        async signin() {
+            try {
+                const response = await AuthService.signin({
+                    email: this.email,
+                    password: this.password
+                });
+                console.log(response);
+                this.$store.dispatch("setToken", response.data.token);
+                this.$store.dispatch("setUser", response.data.user);
+                if (response.data.error == 0) {
+                    this.$router.push({ name: "home-page" });
+                }
+            } catch (error) {
+                this.error = error.response.data.error;
+            }
+        }
     }
 };
 </script>
