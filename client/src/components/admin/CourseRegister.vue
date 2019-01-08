@@ -20,15 +20,15 @@
                     ></v-text-field>
                   </v-flex>
                   <v-flex>
-                    <v-text-field
+                    <v-textarea
                       v-model="courseDescription"
                       label="Course descrption"
                       type="text"
                       :rules="inputRules"
-                    ></v-text-field>
+                    ></v-textarea>
                   </v-flex>
                   <v-flex class="text-xs-center" mt-5>
-                    <v-btn color="primary" @click="addCourse">Add</v-btn>
+                    <v-btn color="primary" @click=" addCourse">Add</v-btn>
                   </v-flex>
                 </v-layout>
               </v-form>
@@ -52,7 +52,7 @@ export default {
     };
   },
   methods: {
-    async addCourse() {
+    async  addCourse() {
       try {
         const response = await AuthService.addCourse({
           courseName: this.courseName,

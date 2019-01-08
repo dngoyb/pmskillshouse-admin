@@ -1,15 +1,14 @@
 <template>
   <div>
     <v-layout>
-      <v-flex xs6 class="mt-4 ml-4">
+      <v-flex xs12 class="mt-4 ml-4 mr-4">
         <trainer-register :trainer="trainer"></trainer-register>
-      </v-flex>
-      <v-flex xs6 class="mt-4 ml-4">
-        <course-register :course="course"></course-register>
       </v-flex>
     </v-layout>
     <v-layout>
-      <v-flex xs12></v-flex>
+      <v-flex xs12 class="mt-4 ml-4 mr-4">
+        <course-register :course="course"></course-register>
+      </v-flex>
     </v-layout>
   </div>
 </template>
