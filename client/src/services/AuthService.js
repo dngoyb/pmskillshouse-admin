@@ -1,10 +1,17 @@
 import Api from './Api'
 
 export default {
-  signup(credentials) {
-    return Api().post('signup', credentials)
+  adminRegistration(credentials) {
+    return Api().post('/users/signup', credentials)
+  },
+  trainerRegistration(credentials) {
+    return Api().post('/users/register', credentials)
   },
   signin(credentials) {
-    return Api().post('login', credentials)
+    return Api().post('/users/login', credentials)
+  },
+  addCourse(credentials) {
+    return Api().post('/courses/create', credentials)
   }
+
 }

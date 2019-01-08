@@ -1,16 +1,39 @@
 <template>
-    <v-container fluid>
-        <v-layout row wrap>
-            <v-flex xs12 class="text-xs-center" mt-5>
-                <h1>Home page</h1>
-            </v-flex>
-            <v-flex xs12 class="text-xs-center" mt-3>
-                <p>This is a user's home page</p>
-            </v-flex>
-        </v-layout>
-    </v-container>
+  <div>
+    <v-layout>
+      <v-flex xs6 class="mt-4 ml-4">
+        <trainer-register :trainer="trainer"></trainer-register>
+      </v-flex>
+      <v-flex xs6 class="mt-4 ml-4">
+        <course-register :course="course"></course-register>
+      </v-flex>
+    </v-layout>
+    <v-layout>
+      <v-flex xs12></v-flex>
+    </v-layout>
+  </div>
 </template>
 
 <script>
-export default {};
+//import SongService from "@/services/SongService";
+import TrainerRegister from "@/components/admin/TrainerRegister";
+import CourseRegister from "@/components/admin/CourseRegister";
+export default {
+  data() {
+    return {
+      trainer: null,
+      course: null
+    };
+  },
+  // async mounted() {
+  //   const songId = this.$store.state.route.params.songId;
+  //   //this.song = (await SongService.show(songId)).data;
+  // },
+  components: {
+    TrainerRegister,
+    CourseRegister
+  }
+};
 </script>
+<style scoped>
+</style>

@@ -23,10 +23,22 @@
       </v-toolbar-title>
       <v-spacer></v-spacer>
       <v-toolbar-items class="hidden-xs-only">
-        <v-btn flat v-for="item in menuItems" :key="item.title" :to="item.path">
+        <v-btn :to="'/home'" flat>
+          <v-icon>home</v-icon>
+          <span>home</span>
+        </v-btn>
+        <v-btn :to="'/signup'" flat>
+          <v-icon>face</v-icon>
+          <span>Sign Up</span>
+        </v-btn>
+        <v-btn :to="'/signin'" flat>
+          <v-icon>lock_open</v-icon>
+          <span>Sign In</span>
+        </v-btn>
+        <!-- <v-btn flat v-for="item in menuItems" :key="item.title" :to="item.path">
           <v-icon left dark>{{ item.icon }}</v-icon>
           {{ item.title }}
-        </v-btn>
+        </v-btn>-->
       </v-toolbar-items>
     </v-toolbar>
 
@@ -49,10 +61,5 @@ export default {
       ]
     };
   }
-  // computed: {
-  //   appTitle() {
-  //       return this.$store.state.appTitle;
-  //   }
-  // }
 };
 </script>

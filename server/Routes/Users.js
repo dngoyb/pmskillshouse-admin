@@ -128,6 +128,7 @@ users.post('/signup', (req, res) => {
 		"date_of_birth": req.body.date_of_birth,
 		"employee_number": req.body.employee_number ? req.body.employee_number : 8888,
 		"gender": req.body.gender,
+		"role": req.body.role ? req.body.role : 1,
 		"created_date": today
 	}
 	if (req.body.password) {
