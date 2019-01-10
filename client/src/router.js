@@ -5,14 +5,17 @@ import Navbar from '@/components/Navbar'
 import Signin from '@/components/Signin'
 import Signup from '@/components/Signup'
 import HomePage from '@/components/HomePage'
+import RegisterTrainer from '@/components/RegisterTrainer'
+import Registration from '@/components/admin/Registration'
+
+
 
 Vue.use(Router)
 
 export default new Router({
   mode: 'history',
   base: process.env.BASE_URL,
-  routes: [
-    {
+  routes: [{
       path: '/',
       name: 'home',
       component: Home
@@ -36,7 +39,16 @@ export default new Router({
       path: '/signup',
       name: 'signup',
       component: Signup
+    },
+    {
+      path: '/home/trainer',
+      name: 'trainer',
+      component: RegisterTrainer
+    },
+    {
+      path: '/home/trainer/registration',
+      name: 'trainer-registration',
+      component: Registration
     }
-
   ]
 })

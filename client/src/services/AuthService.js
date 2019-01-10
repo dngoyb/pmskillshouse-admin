@@ -12,6 +12,9 @@ export default {
   },
   addCourse(credentials) {
     return Api().post('/courses/create', credentials)
-  }
+  },
+  getAllTrainers() {
+    return Api().get('/users/getUsers')
+  },
 
 }
